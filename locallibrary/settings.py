@@ -143,4 +143,4 @@ DATABASES['default'].update(db_from_env)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-ALLOWED_HOSTS = ['library-brokenclown.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['murmuring-caverns-76261.herokuapp.com','127.0.0.1']
