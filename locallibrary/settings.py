@@ -23,11 +23,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #SECRET_KEY = 'f#61w6x=o%)5=l847z_mt5l)p2#e6tz%1fzp@8yg-y)q3+udqi'
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
+# l847z_mt5lp2#e6tz%1fzp@8yg-yq3+udqi
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+
+ALLOWED_HOSTS = ['lc-library.herokuapp.com','127.0.0.1']
 
 
 # Application definition
@@ -143,4 +147,3 @@ DATABASES['default'].update(db_from_env)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-ALLOWED_HOSTS = ['murmuring-caverns-76261.herokuapp.com','127.0.0.1']
