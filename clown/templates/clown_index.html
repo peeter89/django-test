@@ -1,0 +1,14 @@
+{% extends "clown_base_generic.html" %}
+
+{% block content %}
+<h1>Broken Clown</h1>
+<h2>Dynamic content</h2>
+
+  <p>The library has the following record counts:</p>
+  <ul>
+    <li><strong>Post:</strong> {{ num_posts }}</li>
+    <li><strong>Author:</strong> {{ num_authors }}</li>
+    <li><strong>Hashtag:</strong> {{ num_hashtags }}</li>
+  </ul>
+
+{% endblock %}
