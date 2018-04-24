@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,21 +21,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'f#61w6x=o%)5=l847z_mt5l)p2#e6tz%1fzp@8yg-y)q3+udqi'
+#SECRET_KEY = 'f#61w6x=o%)5=l847z_mt5l)p2#e6tz%1fzp@8yg-y)q3+udqi'
 
-#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'l847z_mt5lp2#e6tz%1fzp@8yg-yq3+udqi')
-# l847z_mt5lp2#e6tz%1fzp@8yg-yq3+udqi
-
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'l847z_mt5lp2#e6tz%1fzp@8yg-yq3+udqi')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-#DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
-
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1' ]
 
 
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -48,7 +46,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -124,7 +121,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
+
 
 SESSION_SAVE_EVERY_REQUEST = True
 
@@ -134,7 +131,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Heroku: Update database configuration from $DATABASE_URL.
-import dj_database_url
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
@@ -145,12 +141,6 @@ DATABASES['default'].update(db_from_env)
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.getenv('email')
-EMAIL_HOST_PASSWORD = os.getenv('pass')
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-SERVER_EMAIL = EMAIL_HOST_USER
