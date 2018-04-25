@@ -1,13 +1,14 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date
 
 # Create your models here.
 
-class State(models.Model):
-	name = models.CharField(max_length=20, help_text="Enter state name (e.g. publish, unpublish...)")
+# class State(models.Model):
+# 	name = models.CharField(max_length=20, help_text="Enter state name (e.g. publish, unpublish...)")
 
-	def __str__(self):
-		return self.name
+# 	def __str__(self):
+# 		return self.name
 
 
 class Author(models.Model):
@@ -28,30 +29,34 @@ class Author(models.Model):
 class Hashtag(models.Model):
 	name = models.CharField(max_length=50, unique=True, help_text="Hashtag name")
 	author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
-	state = models.ForeignKey('State', help_text="Tag state", on_delete=models.PROTECT)
 	date_create = models.DateField(auto_now_add=True)
-
+	
 	class Meta:
 		ordering = ["name"]
 
 	def __str__(self):
 		return self.name
 
-class Post(models.Model):
-	name = models.CharField(max_length=50)
-	description = models.CharField(max_length=250, null=True, blank=True)
-	image = models.CharField(max_length=250)
-	author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
-	state = models.ForeignKey('State', on_delete=models.PROTECT)
-	Hashtag = models.ManyToManyField(Hashtag,help_text='Select a Hashtag for Post')
-	date_create = models.DateField(auto_now_add=True)
-	date_update = models.DateField(auto_now=True)
+# class Post(models.Model):
+# 	name = models.CharField(max_length=50)
+# 	description = models.CharField(max_length=250, null=True, blank=True)
+# 	image = models.CharField(max_length=250)
+# 	author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
+# 	state = models.ForeignKey('State', on_delete=models.PROTECT)
+# 	hashtag = models.ManyToManyField(Hashtag,help_text='Select a Hashtag for Post')
+# 	date_create = models.DateField(auto_now_add=True)
+# 	date_update = models.DateField(auto_now=True)
 
-	class Meta:
-		ordering = ["date_create"]
+# 	def display_hashtag(self):
+        
+# 		return ', '.join([ hashtag.name for hashtag in self.hashtag.all()[:10] ])
+# 	display_hashtag.short_description = 'Hashtag'
 
-	def get_absolute_url(self):
-		return reverse('post-detail', args=[str(self.id)])
+# 	class Meta:
+# 		ordering = ["date_create"]
 
-	def __str__(self):
-		return self.name
+# 	def get_absolute_url(self):
+# 		return reverse('post-detail', args=[str(self.id)])
+
+# 	def __str__(self):
+# 		return self.name

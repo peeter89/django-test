@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post, Author, Hashtag, State
+from .models import Author, Hashtag
 
 # Create your views here.
 def index(request):
@@ -7,7 +7,7 @@ def index(request):
 	View function for home page of site.
 	"""
 	# Generate counts of some of the main objects
-	num_posts = Post.objects.all().count()
+	num_posts = 10
 	num_authors = Author.objects.all().count()
 	num_hashtags = Hashtag.objects.all().count()
 
