@@ -34,6 +34,9 @@ class Hashtag(models.Model):
 	class Meta:
 		ordering = ["name"]
 
+	def get_absolute_url(self):
+		return reverse('hashtag-detail', args=[str(self.id)])
+
 	def __str__(self):
 		return self.name
 

@@ -9,11 +9,6 @@ class HashtagAdmin(admin.ModelAdmin):
     list_filter = ('author',)
 
 
-# @admin.register(Post)
-# class PostAdmin(admin.ModelAdmin):
-#     list_display = ('name', 'author', 'description', 'date_create' , 'date_update', 'state', 'display_hashtag')
-#     list_filter = ('author',)
-
-# admin.site.register(State)
-admin.site.register(Author)
-
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+	list_display = ('first_name' , 'last_name', 'date_of_birth', 'date_create')
