@@ -1,0 +1,21 @@
+{% extends "clown_base_generic.html" %}
+
+{% block content %}
+    <h1>Post List</h1>
+
+    {% if post_list %}
+    <ul>
+
+      {% for post in post_list %}
+      
+        <h2><a href="{{ post.get_absolute_url }}">|{{ post.name }}</a>{{ post.is_publish }}</h2> 
+        <br/>
+        
+      
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>There are no Post in the library.</p>
+    {% endif %}  
+{% endblock %}

@@ -1,6 +1,10 @@
 from django.shortcuts import render
-from .models import Author, Hashtag
+from .models import Author, Hashtag, Post
 from django.views import generic
+from django.utils import timezone
+from datetime import datetime
+import logging
+
 
 # Create your views here.
 def index(request):
@@ -8,7 +12,7 @@ def index(request):
 	View function for home page of site.
 	"""
 	# Generate counts of some of the main objects
-	num_posts = 10
+	num_posts = Post.objects.filter(date_publish__lte=datetime.now()).count()
 	num_authors = Author.objects.all().count()
 	num_hashtags = Hashtag.objects.all().count()
 
@@ -38,22 +42,18 @@ class AuthorListView(generic.ListView):
 
 class AuthorDetailView(generic.DetailView):
     model = Author
+    
 
-    def author_detail_view(request,pk):
-	    try:
-	        author_id=Author.objects.get(pk=pk)
-	    except Author.DoesNotExist:
-	        raise Http404("Author does not exist")
-
-	    #book_id=get_object_or_404(Book, pk=pk)
-	    
-	    return render(
-	        request,
-	        'clown/author_detail.html',
-	        context={'author':author_id,}
-	    )
-
-
+    def get_context_data(self,**kwargs):
+        # Call the base implementation first to get the context
+        context = super(AuthorDetailView, self).get_context_data(**kwargs)
+        
+        
+        
+        # Create any data and add it to the context
+        context['num_authors_post'] = Post.objects.filter(author_id=self.kwargs['pk'],date_publish__lte=datetime.now()).count
+        return context
+    
 #HashTag View
 class HashtagListView(generic.ListView):
     model = Hashtag
@@ -63,7 +63,7 @@ class HashtagListView(generic.ListView):
 
 
     def get_queryset(self):
-        return Hashtag.objects.all()[:5] # Get 5 books containing the title war
+        return Hashtag.objects.all() # Get 5 books containing the title war
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
@@ -74,16 +74,28 @@ class HashtagListView(generic.ListView):
 class HashtagDetailView(generic.DetailView):
     model = Hashtag
 
-    def hashtag_detail_view(request,pk):
-	    try:
-	        hashtag_id=Hashtag.objects.get(pk=pk)
-	    except Hashtag.DoesNotExist:
-	        raise Http404("Hashtag does not exist")
 
-	    #book_id=get_object_or_404(Book, pk=pk)
-	    
-	    return render(
-	        request,
-	        'clown/hashtag_detail.html',
-	        context={'hashtag':hashtag_id,}
-	    )
+#Post View
+class PostListView(generic.ListView):
+    model = Post
+    context_object_name = 'post_list'   # your own name for the list as a template variable
+    template_name = 'clown/post-list.html'  # Specify your own template name/location
+    paginate_by = 10
+
+
+    def get_queryset(self):
+        return Post.objects.filter(date_publish__lte=datetime.now())
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the context
+        context = super(PostListView, self).get_context_data(**kwargs)
+        return context
+
+
+class PostDetailView(generic.DetailView):
+    model = Post
+
+    def get_queryset(self):
+        return Post.objects.filter(date_publish__lte=datetime.now())
+
+    

@@ -1,0 +1,22 @@
+{% extends "clown_base_generic.html" %}
+
+{% block content %}
+  <h1>|{{ post.name }}</h1>
+  <shadow>{{ post.author }} ({{ post.date_publish }}})</shadow>
+  <p>{{ post.is_publish }}</p>
+  <p>{{ post.description }}</p>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>HashTag</h4>
+
+    <dl>
+      {% for hashtag in post.hashtag.all %}
+        {% if forloop.first %}
+            <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
+        {% else %}
+          <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
+        {% endif %}
+      {% endfor %}
+      </dl>
+  </div>
+{% endblock %}

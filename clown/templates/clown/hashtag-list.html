@@ -5,10 +5,10 @@
 
     {% if hashtag_list %}
     <ul>
-
+        
       {% for hashtag in hashtag_list %}
       
-        <h2><a href="{{ hashtag.get_absolute_url }}">#{{ hashtag.name }}</a></h2> 
+        <h2><a href="{{ hashtag.get_absolute_url }}">#{{ hashtag.name }} </a>[{{hashtag.post_set.count}}]</h2> 
         <br/>
         
       
