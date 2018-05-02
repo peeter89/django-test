@@ -11,7 +11,7 @@ class HashtagAdmin(admin.ModelAdmin):
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
-	list_display = ('first_name' , 'last_name', 'date_of_birth', 'date_create')
+	list_display = ('first_name' , 'last_name', 'date_of_birth', 'description', 'date_create')
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):

@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from datetime import date
+from datetime import date, datetime
 from django.utils import timezone
 
 # Create your models here.
@@ -16,10 +16,14 @@ class Author(models.Model):
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	date_of_birth = models.DateField(null=True, blank=True)
+	description = models.CharField(max_length=500)
 	date_create = models.DateTimeField(auto_now_add=True)
 
 	class Meta:
 		ordering = ["last_name","first_name"]
+
+	def publish_post_set(self):
+		return self.post_set.filter(date_publish__lte=datetime.now())
 
 	def get_absolute_url(self):
 		return reverse('author-detail', args=[str(self.id)])
@@ -38,11 +42,19 @@ class Hashtag(models.Model):
 	class Meta:
 		ordering = ["name"]
 
+
+	def publish_post_set(self):
+		return self.post_set.filter(date_publish__lte=datetime.now())
+
+
 	def get_absolute_url(self):
 		return reverse('hashtag-detail', args=[str(self.id)])
 
 	def __str__(self):
 		return self.name
+
+
+
 
 
 class Post(models.Model):
@@ -54,6 +66,7 @@ class Post(models.Model):
 	date_create = models.DateTimeField(auto_now_add=True)
 	date_update = models.DateTimeField(auto_now=True)
 	date_publish = models.DateTimeField(default=timezone.now)
+
 
 	@property
 	def is_publish(self):

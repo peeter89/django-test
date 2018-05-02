@@ -3,6 +3,8 @@
 {% block content %}
   <h1>Author: {{ author.last_name }}, {{ author.first_name }}</h1>
   <shadow>{{ author.date_of_birth }}</shadow>
+  </br>
+  <shadow>{{ author.description }}</shadow>
   <div class="col-lg-12">
     <div class=col-lg-6 style="margin-top:20px">
     
@@ -21,12 +23,10 @@
     </div>
     <div class=col-lg-6 style="margin-top:20px">
     
-      <h4>Post [{{ num_authors_post }}]</h4>
+      <h4>Post [{{ author.publish_post_set.count }}]</h4>
       <dl>
-      {% for post in author.post_set.all %}
-        {% if post.is_publish %}
-          <dt><a href="{% url 'post-detail' post.pk %}">|{{post}}</a></dt>
-        {% endif %}
+      {% for post in author.publish_post_set %}
+        <dt><a href="{% url 'post-detail' post.pk %}">|{{post}}</a></dt>
       {% endfor %}
       </dl>
     

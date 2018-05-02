@@ -8,7 +8,7 @@
     <h4>Post</h4>
 
     <dl>
-    {% for post in hashtag.post_set.all %}
+    {% for post in hashtag.publish_post_set.all %}
       {% if post.is_publish %}
         <dt><a href="{% url 'post-detail' post.pk %}">|{{post}}</a></dt>
         <dd>{{post.description}}</dd>

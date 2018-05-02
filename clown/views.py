@@ -47,11 +47,7 @@ class AuthorDetailView(generic.DetailView):
     def get_context_data(self,**kwargs):
         # Call the base implementation first to get the context
         context = super(AuthorDetailView, self).get_context_data(**kwargs)
-        
-        
-        
         # Create any data and add it to the context
-        context['num_authors_post'] = Post.objects.filter(author_id=self.kwargs['pk'],date_publish__lte=datetime.now()).count
         return context
     
 #HashTag View
@@ -67,6 +63,7 @@ class HashtagListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
+        
         context = super(HashtagListView, self).get_context_data(**kwargs)
         return context
 
