@@ -1,20 +1,43 @@
 {% extends "clown_base_generic.html" %}
 
 {% block content %}
-    <h1>Post List</h1>
+   
 
     {% if post_list %}
-    <ul>
+    <h1>{{ title }}</h1>
 
       {% for post in post_list %}
-      
-        <h2><a href="{{ post.get_absolute_url }}">|{{ post.name }}</a>{{ post.is_publish }}</h2> 
-        <br/>
+      <div class="row">
         
+          <div class="thumbnail col-lg-9">
+            
+            <div class="col-lg-6">
+              <img src='{{ post.image.url }}' class='img-responsive'>
+            </div>
+
+            <div class="caption col-lg-6">
+              <h3><a href="{{ post.get_absolute_url }}">|{{ post.name }}</a><small> {{ post.author }} {{ post.date_publish|timesince }} ago</small></h3>
+              <p>{{ post.description|linebreaks|truncatechars:150 }}</p>
+              <div style="margin-top:20px">
+                <dl>
+                  {% for hashtag in post.hashtag.all %}
+                    {% if forloop.first %}
+                        <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
+                    {% else %}
+                      <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
+                    {% endif %}
+                  {% endfor %}
+                  </dl>
+              </div>
+
+            </div>
+
+          </div>
+        
+      </div>
       
       {% endfor %}
 
-    </ul>
     {% else %}
       <p>There are no Post in the library.</p>
     {% endif %}  

@@ -11,12 +11,22 @@ from django.utils import timezone
 # 	def __str__(self):
 # 		return self.name
 
+def upload_location_photo(instance, filename):
+	return "%s/%s" %('profile', filename)
 
 class Author(models.Model):
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
-	date_of_birth = models.DateField(null=True, blank=True)
-	description = models.CharField(max_length=500)
+	photo = models.ImageField(
+		blank=True,
+		null=True,
+		upload_to=upload_location_photo,
+		width_field="width_field",
+		height_field="height_field")
+	height_field = models.IntegerField(default=0)
+	width_field = models.IntegerField(default=0)
+	date_of_birth = models.DateField()
+	description = models.TextField(max_length=2500)
 	date_create = models.DateTimeField(auto_now_add=True)
 
 	class Meta:
@@ -55,12 +65,18 @@ class Hashtag(models.Model):
 
 
 
-
+def upload_location(instance, filename):
+	return "%s/%s" %(instance.id, filename)
 
 class Post(models.Model):
 	name = models.CharField(max_length=50)
-	description = models.CharField(max_length=250, null=True, blank=True)
-	image = models.CharField(max_length=250)
+	description = models.TextField(max_length=250, null=True, blank=True)
+	image = models.ImageField(
+		upload_to=upload_location,
+		width_field="width_field",
+		height_field="height_field")
+	height_field = models.IntegerField(default=0)
+	width_field = models.IntegerField(default=0)
 	author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
 	hashtag = models.ManyToManyField(Hashtag,help_text='Select a Hashtag for Post')
 	date_create = models.DateTimeField(auto_now_add=True)
@@ -80,7 +96,7 @@ class Post(models.Model):
 	display_hashtag.short_description = 'Hashtag'
 
 	class Meta:
-		ordering = ["date_create"]
+		ordering = ["-date_publish"]
 
 	def get_absolute_url(self):
 		return reverse('post-detail', args=[str(self.id)])

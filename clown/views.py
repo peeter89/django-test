@@ -37,6 +37,7 @@ class AuthorListView(generic.ListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
         context = super(AuthorListView, self).get_context_data(**kwargs)
+        context['title'] = "List of Authors"
         return context
 
 
@@ -79,13 +80,13 @@ class PostListView(generic.ListView):
     template_name = 'clown/post-list.html'  # Specify your own template name/location
     paginate_by = 10
 
-
     def get_queryset(self):
         return Post.objects.filter(date_publish__lte=datetime.now())
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
         context = super(PostListView, self).get_context_data(**kwargs)
+        context['title'] = "List of Post"
         return context
 
 

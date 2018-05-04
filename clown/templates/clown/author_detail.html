@@ -1,35 +1,60 @@
 {% extends "clown_base_generic.html" %}
-
+{% load static %}
+  
+  
 {% block content %}
-  <h1>Author: {{ author.last_name }}, {{ author.first_name }}</h1>
-  <shadow>{{ author.date_of_birth }}</shadow>
-  </br>
-  <shadow>{{ author.description }}</shadow>
-  <div class="col-lg-12">
-    <div class=col-lg-6 style="margin-top:20px">
-    
-      <h4>Hashtag [{{author.hashtag_set.count}}]</h4>
-
-      <dl>
-      {% for hashtag in author.hashtag_set.all %}
-        {% if forloop.first %}
-            <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
-        {% else %}
-          <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
-        {% endif %}
-      {% endfor %}
-      </dl>
-    
+  <div class="col-lg-9">
+    <div class="col-lg-3">
+      {% if author.photo %}
+        <img src='{{ author.photo.url }}' class='img-responsive'>
+      {% else %}
+         <img src="{% static "images/empty.png" %}" class='img-responsive'/>
+       {% endif %}
     </div>
-    <div class=col-lg-6 style="margin-top:20px">
-    
-      <h4>Post [{{ author.publish_post_set.count }}]</h4>
-      <dl>
-      {% for post in author.publish_post_set %}
-        <dt><a href="{% url 'post-detail' post.pk %}">|{{post}}</a></dt>
-      {% endfor %}
-      </dl>
-    
+    <div class="col-lg-9">
+      <h1>{{ author.last_name }}, {{ author.first_name }}</h1>
+      <small>{{ author.date_of_birth }}</small>
     </div>
   </div>
+  <div class="col-lg-9">
+    <p>{{ author.description }}</p>
+    
+    <div style="margin-top:10px">
+      {% if author.hashtag_set.all.count > 1 %}
+        <h4>Hashtag:
+          {% for hashtag in author.hashtag_set.all %}
+            {% if forloop.first %}
+                <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
+            {% else %}
+              <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
+            {% endif %}
+          {% endfor %}      
+        </h4>
+      {% else %}
+          <h4>No Hashtag!</h4>
+      {% endif %}
+
+      {% for post in author.publish_post_set %}
+          <div class="thumbnail col-lg-6" style="min-height:210px">
+            <div class="col-lg-6">
+              <img src='{{ post.image.url }}' class='img-responsive'>
+            </div>
+            <div class="caption col-lg-6">
+              <h3><a href="{{ post.get_absolute_url }}">|{{ post.name }}</a><small> {{ post.author }} {{ post.date_publish|timesince }} ago</small></h3>
+              <div style="margin-top:20px">
+                <dl>
+                  {% for hashtag in post.hashtag.all %}
+                    {% if forloop.first %}
+                        <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
+                    {% else %}
+                      <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
+                    {% endif %}
+                  {% endfor %}
+                  </dl>
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+  </div>  
 {% endblock %}

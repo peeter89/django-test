@@ -1,20 +1,40 @@
 {% extends "clown_base_generic.html" %}
 
 {% block content %}
-    <h1>Author List</h1>
 
-    {% if author_list %}
-    <ul>
+  <h1>{{ title }}</h1>
 
-      {% for author in author_list %}
-      <li>
-        <a href="{{ author.get_absolute_url }}">{{ author.last_name }}, {{ author.first_name }} ({{ author.date_of_birth }})</a> 
-        
-      </li>
-      {% endfor %}
+  {% if author_list %}
+    {% for author in author_list %}
+      <div class="row">
+        <div class="thumbnail col-lg-9">
+          <div class="col-lg-4">
+              <img src='{{ author.photo.url }}' class='img-responsive'>
+          </div>
+          <div class="col-lg-8">
+            <h3><a href="{{ author.get_absolute_url }}">{{ author }}</a>
+              <small> {{ author.date_of_birth|timesince }} </small>
+            </h3>
+            <p>{{ author.description|truncatechars:120 }}</p>
+            <p>Publish Post: {{ author.publish_post_set.count }}</p>
+            <div>
+                <dl>
+                  {% for hashtag in author.hashtag_set.all %}
+                    {% if forloop.first %}
+                        <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
+                    {% else %}
+                      <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
+                    {% endif %}
+                  {% endfor %}
+                  </dl>
+              </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>There are no author in the library.</p>
+  {% endif %}
 
-    </ul>
-    {% else %}
-      <p>There are no author in the library.</p>
-    {% endif %}  
 {% endblock %}
+     

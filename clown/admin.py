@@ -15,5 +15,5 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-	list_display = ('name' , 'image', 'author', 'display_hashtag', 'date_create', 'date_update', 'date_publish', 'is_publish')
+	list_display = ('name' ,'image', 'author', 'display_hashtag', 'date_create', 'date_update', 'date_publish', 'is_publish')
 	list_filter = ('author','hashtag', 'date_publish',)
