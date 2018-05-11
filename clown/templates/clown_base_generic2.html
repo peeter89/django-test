@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  {% block title %}<title>Broken Clown</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  <!-- Add additional CSS in static file -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  
+  
+</head>
+<style>
+  ul.desktop-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  li.desktop-menu {
+    display: inline;
+    float: left;
+  }
+  a.desktop-menu {
+    display: block;
+    color: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+</style>
+
+<body>
+<div class="container">
+  
+  <div class="col-lg-12">
+    
+        <ul class="desktop-menu" id="desktopMenu">
+          <li class="desktop-menu">
+            <a class="desktop-menu" style="padding-left:0px" href="{% url 'clown_index' %}"><img src="{% static "images/softip_logo.png" %}" alt="My image" style="width:100px;height:15px;"/>
+            </a>
+          </li>
+          <li class="desktop-menu">
+            <a class="desktop-menu" href="{% url 'posts' %}">All Posts</a>
+          </li>
+          <li class="desktop-menu">
+            <a class="desktop-menu" href="{% url 'authors' %}">All Authors</a>
+          </li>
+          <li class="desktop-menu">
+            <a class="desktop-menu" href="{% url 'styleguide' %}">Style Guide</a>
+          </li>
+        </ul>
+    
+  </div>
+  
+    <div class="col-lg-12">
+    {% block content %}{% endblock %}
+    {% block pagination %}
+      {% if is_paginated %}
+          <div class="pagination">
+              <span class="page-links">
+                  {% if page_obj.has_previous %}
+                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                  {% endif %}
+                  <span class="page-current">
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                  </span>
+                  {% if page_obj.has_next %}
+                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                  {% endif %}
+              </span>
+          </div>
+      {% endif %}
+    {% endblock %} 
+    </div>
+  
+
+</div>
+</body>
+</html>

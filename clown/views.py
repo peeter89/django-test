@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Author, Hashtag, Post
 from django.views import generic
 from django.utils import timezone
 from datetime import datetime
-import logging
+from django.db.models import Count
 
 
 # Create your views here.
@@ -23,6 +23,15 @@ def index(request):
 		context={'num_posts':num_posts, 'num_authors': num_authors ,'num_hashtags':num_hashtags},
 	)
 
+def styleguide(request):
+    num_xxx = 6
+
+    return render(
+        request,
+        'styleguide.html',
+        context={'num_xxx':num_xxx}
+        )
+
 #Author View
 class AuthorListView(generic.ListView):
     model = Author
@@ -32,7 +41,7 @@ class AuthorListView(generic.ListView):
 
 
     def get_queryset(self):
-        return Author.objects.all()[:5] # Get 5 books containing the title war
+        return Author.objects.all() # Get 5 books containing the title war
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
@@ -52,26 +61,32 @@ class AuthorDetailView(generic.DetailView):
         return context
     
 #HashTag View
-class HashtagListView(generic.ListView):
-    model = Hashtag
-    context_object_name = 'hashtag_list'   # your own name for the list as a template variable
-    template_name = 'clown/hashtag-list.html'  # Specify your own template name/location
-    paginate_by = 10
+
+# class HashtagListView(generic.ListView):
+#     model = Hashtag
+#     context_object_name = 'hashtag_list'   # your own name for the list as a template variable
+#     template_name = 'clown/hashtag-list.html'  # Specify your own template name/location
+#     paginate_by = 10
 
 
-    def get_queryset(self):
-        return Hashtag.objects.all() # Get 5 books containing the title war
+#     def get_queryset(self):
+#         return Hashtag.objects.all() # Get 5 books containing the title war
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get the context
+#     def get_context_data(self, **kwargs):
+#         # Call the base implementation first to get the context
         
-        context = super(HashtagListView, self).get_context_data(**kwargs)
-        return context
+#         context = super(HashtagListView, self).get_context_data(**kwargs)
+#         return context
 
 
 class HashtagDetailView(generic.DetailView):
     model = Hashtag
+    template_name = 'clown/hashtag_detail.html'
 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the context
+        context = super(HashtagDetailView, self).get_context_data(**kwargs)
+        return context
 
 #Post View
 class PostListView(generic.ListView):
@@ -87,8 +102,8 @@ class PostListView(generic.ListView):
         # Call the base implementation first to get the context
         context = super(PostListView, self).get_context_data(**kwargs)
         context['title'] = "List of Post"
+        context['hashtag_list'] = Hashtag.objects.filter(post__date_publish__lte=datetime.now()).distinct().annotate(p_count=Count('post')).order_by('-p_count', 'name')
         return context
-
 
 class PostDetailView(generic.DetailView):
     model = Post

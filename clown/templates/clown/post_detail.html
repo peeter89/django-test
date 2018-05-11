@@ -1,27 +1,34 @@
 {% extends "clown_base_generic.html" %}
 
 {% block content %}
-<div class="col-lg12">
-  <div class="col-lg-9">
-    {% if post.image %}
-      <img src='{{ post.image.url }}' class='img-responsive'>
-    {% endif %}
-      <h1>|{{ post.name }}
+<div class="container">
+  {% if post.image %}
+  <div class="col-md-12">
+    <img class="img-fluid" src="{{ post.image.url }}" alt="Post image">
+  </div>
+  {% endif %}
+  <div class="py-2 col-md-12">
+    <h1>|{{ post.name }}
         <a href="{% url 'author-detail' post.author.pk %}"><small>{{post.author}}</a> {{ post.date_publish }}</small>
       </h1> 
-      <div style="margin-top:10px">
-        <dl>
-          {% for hashtag in post.hashtag.all %}
-            {% if forloop.first %}
-                <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
-            {% else %}
-              <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
-            {% endif %}
-          {% endfor %}
-        </dl>
-        <p>{{ post.description }}</p>
-    </div>
   </div>
+  <div class="col-md-12">
+
+    {% for hashtag in post.hashtag.all %}
+      {% if forloop.first %}
+          <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
+      {% else %}
+        <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
+      {% endif %}
+    {% endfor %}
+              
+  </div>
+  <div class="py-2 col-md-12">
+
+    <p>{{ post.description }}</p>
+              
+  </div>
+
 </div>
   
 {% endblock %}

@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from datetime import date, datetime
 from django.utils import timezone
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 
@@ -46,12 +47,15 @@ class Author(models.Model):
 
 class Hashtag(models.Model):
 	name = models.CharField(max_length=50, unique=True, help_text="Hashtag name")
+	# slug = models.SlugField(max_length=50, unique=True)
 	author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
 	date_create = models.DateTimeField(auto_now_add=True)
 	
 	class Meta:
 		ordering = ["name"]
 
+	# def slug(self):
+	# 	return slugify(self.name)
 
 	def publish_post_set(self):
 		return self.post_set.filter(date_publish__lte=datetime.now())

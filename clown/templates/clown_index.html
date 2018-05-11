@@ -1,14 +1,77 @@
 {% extends "clown_base_generic.html" %}
 
 {% block content %}
-<h1>Broken Clown</h1>
-<h2>Dynamic content</h2>
+	
+	<div class="py-5 text-center filter-dark" style="background-image: url('https://picsum.photos/1200/675?image=1050');background-size:cover;background-position:center center;">
+		<div class="container py-5">
+			<div class="row">
+				<div class="py-5 col-md-12">
+				</div>
+				<div class="py-5 col-md-12">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="py-4">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 p-3">
+					<div class="text-center">
+						<h2>All post</h2>
+						<p class="text-center">{{ num_posts }}</p>
+					</div>
+				</div>
+				<div class="col-md-4 p-3">
+					<div class="text-center">
+						<h2>All hashtags</h2>
+						<p class="text-center">{{ num_hashtags }}</p>
+					</div>
+				</div>
+				<div class="col-md-4 p-3">
+					<div class="text-center">
+						<h2>All authors</h2>
+						<p class="text-center">{{ num_authors }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		
+			
+				<div class="carousel slide my-3" data-ride="carousel" id="carousel-2" data-interval="5000">
+					<ol class="carousel-indicators">
+					<li data-target="#carousel-2" data-slide-to="0" class="active">&nbsp;</li>
+					<li data-target="#carousel-2" data-slide-to="1">&nbsp;</li>
+					<li data-target="#carousel-2" data-slide-to="2">&nbsp;</li>
+					</ol>
+					<div class="carousel-inner" role="listbox">
+						<div class="carousel-item active">
+							<img class="d-block img-fluid" src="https://picsum.photos/1200/675?image=983" data-holder-rendered="true" style="margin-right: 0rem;">
+							<div class="carousel-caption">
+								<p class="lead">Caption I</p>
+							</div>
+						</div>
+						<div class="carousel-item ">
+							<img class="d-block img-fluid" src="https://picsum.photos/1200/675?image=972" data-holder-rendered="true">
+							<div class="carousel-caption">
+								<p class="lead">Caption II</p>
+							</div>
+						</div>
+						<div class="carousel-item">
+							<img class="d-block img-fluid" src="https://picsum.photos/1200/675?image=1050" data-holder-rendered="true">
+							<div class="carousel-caption">
+								<p class="lead">Caption III</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+		
+	</div>
+	
 
-  <p>The library has the following record counts:</p>
-  <ul>
-    <li><strong>Post:</strong> {{ num_posts }}</li>
-    <li><strong>Author:</strong> {{ num_authors }}</li>
-    <li><strong>Hashtag:</strong> {{ num_hashtags }}</li>
-  </ul>
+	
+		
 
 {% endblock %}

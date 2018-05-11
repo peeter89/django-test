@@ -1,44 +1,76 @@
 {% extends "clown_base_generic.html" %}
 
 {% block content %}
-   
 
-    {% if post_list %}
+<div class="container">
+  <div class="py-3 col-md-12 text-center">
     <h1>{{ title }}</h1>
+  </div>
 
-      {% for post in post_list %}
-      <div class="row">
-        
-          <div class="thumbnail col-lg-9">
-            
-            <div class="col-lg-6">
-              <img src='{{ post.image.url }}' class='img-responsive'>
-            </div>
+  <!-- list post -->
+  <div class="row">
+    <div class="col-md-9">
+      {% if post_list %}
 
-            <div class="caption col-lg-6">
-              <h3><a href="{{ post.get_absolute_url }}">|{{ post.name }}</a><small> {{ post.author }} {{ post.date_publish|timesince }} ago</small></h3>
-              <p>{{ post.description|linebreaks|truncatechars:150 }}</p>
-              <div style="margin-top:20px">
-                <dl>
-                  {% for hashtag in post.hashtag.all %}
-                    {% if forloop.first %}
-                        <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
-                    {% else %}
-                      <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
-                    {% endif %}
-                  {% endfor %}
-                  </dl>
+        {% for post in post_list %}
+        <div class="row">
+          <div class="col-md-12 p-1">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <img class="img-fluid" src="{{ post.image.url }}" alt="Card image"> 
+                  </div>
+                  <div class="col-md-8">
+                    <a href="{{ post.get_absolute_url }}"><h3>{{ post.name }}</h3></a><small> {{ post.author }} {{ post.date_publish|timesince }} ago </small>
+                    <p class="card-text">{{ post.description|truncatechars:120 }}</p>
+                    
+                    <div>
+                        {% for hashtag in post.hashtag.all %}
+                          {% if forloop.first %}
+                              <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
+                          {% else %}
+                            <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
+                          {% endif %}
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
               </div>
-
             </div>
-
           </div>
-        
-      </div>
-      
+        </div>
+
       {% endfor %}
 
-    {% else %}
-      <p>There are no Post in the library.</p>
-    {% endif %}  
+      {% else %}
+        <div class="col-md-12 text-center">
+          <p>There are no author in the library.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- list tag -->
+
+    <div class="col-md-3 p-1">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">Top 5 #</h3>
+          {% if hashtag_list %}
+            {% for hashtag in hashtag_list %}
+              <div class="col-md-12">
+                <a href="{{ hashtag.get_absolute_url }}" class="card-link"><h4>#{{ hashtag.name }}</a> - {{ hashtag.publish_post_set.count }} post </h4>
+              </div>            
+            {% endfor %}
+          {% else %}
+            <div class="col-md-12 text-center">
+              <p>There are no author in the library.</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>     
+</div>
+
 {% endblock %}
