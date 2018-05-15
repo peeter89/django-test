@@ -107,5 +107,3 @@ ENV/
 #Database
 *.sqlite3
 
-#Media
-mediafiles/
