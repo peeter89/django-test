@@ -14,12 +14,8 @@
   </div>
   <div class="col-md-12">
 
-    {% for hashtag in post.hashtag.all %}
-      {% if forloop.first %}
-          <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
-      {% else %}
-        <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
-      {% endif %}
+    {% for obj in post.hashtag.all %}
+      {% include 'components/hashtag_list.html' %}
     {% endfor %}
               
   </div>

@@ -1,8 +1,11 @@
 {% extends "clown_base_generic.html" %}
 
+
+
 {% block content %}
 	
-	<div class="py-5 text-center filter-dark" style="background-image: url('https://picsum.photos/1200/675?image=1050');background-size:cover;background-position:center center;">
+	<!-- Main Image -->
+	<div class="py-5 text-center filter-dark" style="background-image: url('https://picsum.photos/1200/675/?random');background-size:cover;background-position:center center;">
 		<div class="container py-5">
 			<div class="row">
 				<div class="py-5 col-md-12">
@@ -36,42 +39,10 @@
 			</div>
 		</div>
 	</div>
-	<div>
-		
-			
-				<div class="carousel slide my-3" data-ride="carousel" id="carousel-2" data-interval="5000">
-					<ol class="carousel-indicators">
-					<li data-target="#carousel-2" data-slide-to="0" class="active">&nbsp;</li>
-					<li data-target="#carousel-2" data-slide-to="1">&nbsp;</li>
-					<li data-target="#carousel-2" data-slide-to="2">&nbsp;</li>
-					</ol>
-					<div class="carousel-inner" role="listbox">
-						<div class="carousel-item active">
-							<img class="d-block img-fluid" src="https://picsum.photos/1200/675?image=983" data-holder-rendered="true" style="margin-right: 0rem;">
-							<div class="carousel-caption">
-								<p class="lead">Caption I</p>
-							</div>
-						</div>
-						<div class="carousel-item ">
-							<img class="d-block img-fluid" src="https://picsum.photos/1200/675?image=972" data-holder-rendered="true">
-							<div class="carousel-caption">
-								<p class="lead">Caption II</p>
-							</div>
-						</div>
-						<div class="carousel-item">
-							<img class="d-block img-fluid" src="https://picsum.photos/1200/675?image=1050" data-holder-rendered="true">
-							<div class="carousel-caption">
-								<p class="lead">Caption III</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			
-		
-	</div>
 	
-
-	
-		
+	<!-- Carousel -->
+	{% if carousel_post %}
+		{% include 'components/carousel.html' %}
+	{% endif %}
 
 {% endblock %}

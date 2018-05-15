@@ -15,36 +15,9 @@
     <div class="col-md-12">
       {% if hashtag.publish_post_set.all %}
 
-        {% for post in hashtag.publish_post_set.all %}
-        <div class="row">
-          <div class="col-md-12 p-1">
-            <div class="card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-4">
-                    <img class="img-fluid" src="{{ post.image.url }}" alt="Card image"> 
-                  </div>
-                  <div class="col-md-8">
-                    <a href="{{ post.get_absolute_url }}"><h3>|{{ post.name }}</h3></a><small> {{ post.author }} {{ post.date_publish|timesince }} ago </small>
-                    <p class="card-text">{{ post.description|truncatechars:120 }}</p>
-                    
-                    <div>
-                        {% for hashtag in post.hashtag.all %}
-                          {% if forloop.first %}
-                              <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
-                          {% else %}
-                            <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
-                          {% endif %}
-                        {% endfor %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      {% endfor %}
+        {% for obj in hashtag.publish_post_set.all %}
+          {% include 'components/post_list.html' %}
+        {% endfor %}
 
       {% else %}
         <div class="col-md-12 text-center">
@@ -58,22 +31,3 @@
 </div>
 
 {% endblock %}
-
-
-
-<!-- 
-  <h1>#{{ hashtag.name }}</h1>
-  <shadow>{{ hashtag.author }}</shadow>
-
-  <div style="margin-left:20px;margin-top:20px">
-    <h4>Post</h4>
-
-    <dl>
-    {% for post in hashtag.publish_post_set.all %}
-      {% if post.is_publish %}
-        <dt><a href="{% url 'post-detail' post.pk %}">|{{post}}</a></dt>
-        <dd>{{post.description}}</dd>
-      {% endif %}
-    {% endfor %}
-    </dl>
-  </div> -->

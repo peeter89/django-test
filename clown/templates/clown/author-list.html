@@ -22,12 +22,8 @@
                   <p class="card-text">{{ author.description|truncatechars:120 }}</p>
                   <p>Publish Post: {{ author.publish_post_set.count }}</p>
                   <div>
-                      {% for hashtag in author.hashtag_set.all %}
-                        {% if forloop.first %}
-                            <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
-                        {% else %}
-                          <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
-                        {% endif %}
+                      {% for obj in author.hashtag_set.all %}
+                        {% include 'components/hashtag_list.html' %}
                       {% endfor %}
                   </div>
                 </div>

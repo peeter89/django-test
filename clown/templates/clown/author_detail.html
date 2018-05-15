@@ -48,12 +48,8 @@
     <p>{{ author.description }}</p>
   </div>
   <div class="py-3 col-md-12">
-    {% for hashtag in author.hashtag_set.all %}
-      {% if forloop.first %}
-          <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
-      {% else %}
-        <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
-      {% endif %}
+    {% for obj in author.hashtag_set.all %}
+      {% include 'components/hashtag_list.html' %}
     {% endfor %}
   </div>
 
@@ -62,35 +58,8 @@
     <div class="col-md-12">
       {% if author.publish_post_set %}
 
-        {% for post in author.publish_post_set %}
-        <div class="row">
-          <div class="col-md-12 p-1">
-            <div class="card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-4">
-                    <img class="img-fluid" src="{{ post.image.url }}" alt="Card image"> 
-                  </div>
-                  <div class="col-md-8">
-                    <a href="{{ post.get_absolute_url }}"><h3>|{{ post.name }}</h3></a><small> {{ post.author }} {{ post.date_publish|timesince }} ago </small>
-                    <p class="card-text">{{ post.description|truncatechars:120 }}</p>
-                    
-                    <div>
-                        {% for hashtag in post.hashtag.all %}
-                          {% if forloop.first %}
-                              <a href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>                            
-                          {% else %}
-                            <a style="margin-left:5px" href="{% url 'hashtag-detail' hashtag.pk %}">#{{hashtag}}</a>
-                          {% endif %}
-                        {% endfor %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        {% for obj in author.publish_post_set %}
+          {% include 'components/post_list.html' %}
       {% endfor %}
 
       {% else %}
