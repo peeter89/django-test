@@ -106,4 +106,4 @@ ENV/
 
 #Database
 *.sqlite3
-
+mediafiles/*
