@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog.apps.CatalogConfig',
     'clown.apps.ClownConfig', 
+
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -146,4 +148,20 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+
+AWS_ACCESS_KEY_ID = 'AKIAIL7Q5ONRVN7HW6VQ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'brokenclown'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_LOCATION = 'static'
+
+DEFAULT_FILE_STORAGE = 'locallibrary.storage_backends.MediaStorage'
+
+
+
 
