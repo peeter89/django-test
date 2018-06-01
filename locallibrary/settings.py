@@ -146,15 +146,16 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
-AWS_ACCESS_KEY_ID = 'AKIAIDJZTAN6ZBGCSRLA'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'brokenclown'
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+if (DEBUG == False):
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
 
-AWS_LOCATION = 'static'
+    AWS_LOCATION = 'static'
 
-DEFAULT_FILE_STORAGE = 'locallibrary.storage_backends.MediaStorage'
+    DEFAULT_FILE_STORAGE = 'locallibrary.storage_backends.MediaStorage'
